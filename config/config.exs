@@ -11,7 +11,7 @@ config :advent_of_code, AdventOfCode.Input,
 #   advent_of_code_session_cookie: "session=..."
 
 try do
-  import_config "secret.exs"
+  import_config "secrets.exs"
 rescue
   error ->
     IO.inspect(error)
