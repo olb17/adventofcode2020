@@ -8,7 +8,7 @@ defmodule AdventOfCode.Day05 do
       col = String.slice(str, -3..-1) |> String.graphemes() |> decipher_row(2, 0)
       row * 8 + col
     end)
-    |> Enum.max(fn a, b -> a > b end)
+    |> Enum.max()
   end
 
   def part2(args) do
@@ -20,7 +20,7 @@ defmodule AdventOfCode.Day05 do
       col = String.slice(str, -3..-1) |> String.graphemes() |> decipher_row(2, 0)
       row * 8 + col
     end)
-    |> Enum.sort(fn a, b -> a < b end)
+    |> Enum.sort()
     |> find_missing()
   end
 
