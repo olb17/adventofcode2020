@@ -24,7 +24,7 @@ defmodule AdventOfCode.Day10Test do
     assert result == 35
   end
 
-  @tag :skipno
+  @tag :skip
   test "part2" do
     assert nb_combin(1) == 1
     assert nb_combin(2) == 2
