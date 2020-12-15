@@ -20,7 +20,7 @@ defmodule AdventOfCode.Day13Test do
     assert result == 295
   end
 
-  @tag :skipno
+  @tag :skip
   test "part2" do
     input = @args
 
