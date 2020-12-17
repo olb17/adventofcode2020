@@ -3,10 +3,17 @@ defmodule AdventOfCode.Day15Test do
 
   import AdventOfCode.Day15
 
-  @tag :skip
+  @args """
+  0,3,6
+  """
+  @tag :skipno
   test "part1" do
-    input = nil
-    result = part1(input)
+    input = @args
+    IO.write("\n")
+
+    result =
+      part1(input)
+      |> IO.inspect(label: "res")
 
     assert result
   end
