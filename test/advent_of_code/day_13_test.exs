@@ -7,10 +7,6 @@ defmodule AdventOfCode.Day13Test do
   939
   3,7,11
   """
-  @args_ol """
-  939
-  7,13,x,x,59,x,31,19
-  """
 
   @tag :skip
   test "part1" do
@@ -27,6 +23,7 @@ defmodule AdventOfCode.Day13Test do
     result =
       part2(input)
       |> IO.inspect(label: "result")
+
     assert result
   end
 end
