@@ -6,7 +6,7 @@ defmodule AdventOfCode.Day15Test do
   @args """
   0,3,6
   """
-  @tag :skipno
+  @tag :skip
   test "part1" do
     input = @args
     IO.write("\n")
