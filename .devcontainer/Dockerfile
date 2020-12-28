@@ -22,7 +22,7 @@ RUN apt-get update \
   && /bin/bash /tmp/common-setup.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" \
 
   # Install instal hex and rebar
-  && apt-get install -y build-essential \
+  && apt-get install -y build-essential inotify-tools \
   && mix local.hex --force \
   && mix local.rebar --force \
 
