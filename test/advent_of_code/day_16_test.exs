@@ -42,7 +42,7 @@ nearby tickets:
     assert result
   end
 
-  @tag :skipno
+  @tag :skip
   test "part2" do
     input = @args2
     IO.inspect("\n")
