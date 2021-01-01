@@ -5,17 +5,20 @@ defmodule AdventOfCode.Day18Test do
 
   @tag :skip
   test "part1" do
-    input = nil
-    result = part1(input)
-
-    assert result
+    input = "5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))"
+    IO.write("\n")
+    res = part1(input) |> IO.inspect(label: input)
+    assert res == 12240
   end
 
-  @tag :skip
+  @tag :skipno
   test "part2" do
-    input = nil
-    result = part2(input)
+    input = "5 * 6 + 2"
 
-    assert result
+    res =
+      part2(input)
+      |> IO.inspect(label: input)
+
+    assert res == 40
   end
 end
