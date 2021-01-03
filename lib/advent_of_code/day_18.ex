@@ -11,7 +11,6 @@ defmodule AdventOfCode.Day18 do
     |> Enum.sum()
   end
 
-  @spec build_tree(nonempty_maybe_improper_list) :: {any, any}
   def build_tree([token | rest]) do
     case token do
       {:digit, val} ->
@@ -25,10 +24,10 @@ defmodule AdventOfCode.Day18 do
 
   def evaluate_lhs(rest, val) do
     case rest do
-      [{:op, operation, _} | new_rest] ->
+      [{:op, operation, type} | new_rest] ->
         {new_new_rest, new_val} = build_tree(new_rest)
         # {new_new_rest, operation.(val, new_val)}
-        {new_new_rest, {:op, operation, val, new_val}}
+        {new_new_rest, {:op, operation, val, new_val, type}}
 
       _ ->
         {rest, val}
@@ -36,16 +35,16 @@ defmodule AdventOfCode.Day18 do
   end
 
   def evaluate_tree(
-        {:op, operation, left, {:op, right_operation, right_left_val, right_right_val}}
+        {:op, operation, left, {:op, right_operation, right_left_val, right_right_val, type}, _}
       ) do
     left_val = evaluate_tree(left)
     right_val = evaluate_tree(right_left_val)
     subres = operation.(left_val, right_val)
 
-    evaluate_tree({:op, right_operation, {:digit, subres}, right_right_val})
+    evaluate_tree({:op, right_operation, {:digit, subres}, right_right_val, type})
   end
 
-  def evaluate_tree({:op, operation, left, right}) do
+  def evaluate_tree({:op, operation, left, right, _}) do
     left_val = evaluate_tree(left)
     right_val = evaluate_tree(right)
     operation.(left_val, right_val)
@@ -66,22 +65,32 @@ defmodule AdventOfCode.Day18 do
       tokens
       |> build_tree()
       |> elem(1)
-      |> evaluate_tree()
+      |> evaluate_tree2()
     end)
     |> Enum.sum()
   end
 
   def evaluate_tree2(
-        {:op, operation, left, {:op, right_operation, right_left_val, right_right_val}}
+        {:op, operation, left,
+         {:op, _right_operation, _right_left_val, _right_right_val, "+"} = op, "*"}
+      ) do
+    left_val = evaluate_tree2(left)
+    right_val = evaluate_tree2(op)
+    operation.(left_val, right_val)
+  end
+
+  def evaluate_tree2(
+        {:op, operation, left,
+         {:op, right_operation, right_left_val, right_right_val, right_type}, _left_type}
       ) do
     left_val = evaluate_tree2(left)
     right_val = evaluate_tree2(right_left_val)
     subres = operation.(left_val, right_val)
 
-    evaluate_tree2({:op, right_operation, {:digit, subres}, right_right_val})
+    evaluate_tree2({:op, right_operation, {:digit, subres}, right_right_val, right_type})
   end
 
-  def evaluate_tree2({:op, operation, left, right}) do
+  def evaluate_tree2({:op, operation, left, right, _}) do
     left_val = evaluate_tree2(left)
     right_val = evaluate_tree2(right)
     operation.(left_val, right_val)
@@ -92,7 +101,7 @@ defmodule AdventOfCode.Day18 do
   end
 
   def evaluate_tree2({:paren, val}) do
-    evaluate_tree(val)
+    evaluate_tree2(val)
   end
 
   def parse_args(args) do
@@ -105,7 +114,7 @@ defmodule AdventOfCode.Day18 do
       |> String.split(" ", trim: true)
       |> Enum.map(fn token ->
         case token do
-          "*" -> {:op, &Kernel.*/2, "-"}
+          "*" -> {:op, &Kernel.*/2, "*"}
           "+" -> {:op, &Kernel.+/2, "+"}
           "(" -> :open
           ")" -> :close
